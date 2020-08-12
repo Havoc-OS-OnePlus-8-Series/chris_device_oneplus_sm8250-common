@@ -312,4 +312,7 @@
         <item>258</item>
         <item>259</item>
     </integer-array>
+
+    <!-- Flag indicating whether we should enable the adaptive sleep.-->
+    <bool name="config_adaptive_sleep_available">true</bool>
 </resources>
