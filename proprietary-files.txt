@@ -53,7 +53,6 @@ vendor/lib64/hw/com.dsi.ant@1.0-impl.so
 
 # Audio - OOS
 vendor/lib/libadsprpc.so
-vendor/lib/libssrec.so
 vendor/lib/soundfx/libhaptic_effect.so
 vendor/lib64/libadsprpc.so
 
