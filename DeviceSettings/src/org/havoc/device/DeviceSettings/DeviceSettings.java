@@ -69,8 +69,8 @@ public class DeviceSettings extends PreferenceFragment
     public static final String KEY_FPS_INFO_TEXT_SIZE = "fps_info_text_size";
     public static final String KEY_MUTE_MEDIA = "mute_media";
     public static final String KEY_VIBSTRENGTH = "vib_strength";
-    public static final String KEY_TOUCHPANEL_CATEGORY = "touchpanel";
     public static final String KEY_GAME_SWITCH = "game_mode";
+    public static final String KEY_EDGE_TOUCH = "edge_touch";
 
     private static final String PREF_DOZE = "advanced_doze_settings";
     private static final String KEY_ENABLE_DOLBY_ATMOS = "enable_dolby_atmos";
@@ -86,6 +86,7 @@ public class DeviceSettings extends PreferenceFragment
     private static ListPreference mFpsInfoColor;
     private static TwoStatePreference mHBMModeSwitch;
     private static TwoStatePreference mGameModeSwitch;
+    private static TwoStatePreference mEdgeTouchSwitch;
     private static TwoStatePreference mAutoHBMSwitch;
     private static TwoStatePreference mMuteMedia;
     private static TwoStatePreference mEnableDolbyAtmos;
@@ -148,8 +149,8 @@ public class DeviceSettings extends PreferenceFragment
         mEnableDolbyAtmos.setChecked(mDolbySwitch.isCurrentlyEnabled());
         mEnableDolbyAtmos.setOnPreferenceChangeListener(this);
 
+        mGameModeSwitch = (TwoStatePreference) findPreference(KEY_GAME_SWITCH);
         if (isGamingModeSupported()) {
-            mGameModeSwitch = (TwoStatePreference) findPreference(KEY_GAME_SWITCH);
             if (GameModeSwitch.isSupported()) {
                 mGameModeSwitch.setEnabled(true);
             } else {
@@ -159,8 +160,14 @@ public class DeviceSettings extends PreferenceFragment
             mGameModeSwitch.setChecked(GameModeSwitch.isCurrentlyEnabled(this.getContext()));
             mGameModeSwitch.setOnPreferenceChangeListener(new GameModeSwitch());
         } else {
-            getPreferenceScreen().removePreference(findPreference(KEY_TOUCHPANEL_CATEGORY));
+            mGameModeSwitch.setEnabled(false);
+            mGameModeSwitch.setSummary(getString(R.string.unsupported_device));
         }
+
+        mEdgeTouchSwitch = (TwoStatePreference) findPreference(KEY_EDGE_TOUCH);
+        mEdgeTouchSwitch.setEnabled(EdgeTouchSwitch.isSupported());
+        mEdgeTouchSwitch.setChecked(EdgeTouchSwitch.isCurrentlyEnabled(this.getContext()));
+        mEdgeTouchSwitch.setOnPreferenceChangeListener(new EdgeTouchSwitch());
 
         mVibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());

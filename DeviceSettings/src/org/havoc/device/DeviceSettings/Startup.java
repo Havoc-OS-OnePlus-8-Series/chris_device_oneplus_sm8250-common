@@ -48,6 +48,10 @@ public class Startup extends BroadcastReceiver {
         if (enabled) {
             restore(GameModeSwitch.getFile(), enabled);
         }
+        enabled = sharedPrefs.getBoolean(DeviceSettings.KEY_EDGE_TOUCH, true);
+        if (enabled) {
+            restore(EdgeTouchSwitch.getFile(), enabled);
+        }
         enabled = sharedPrefs.getBoolean(ONE_TIME_DOLBY, false);
         if (!enabled) {
             // we want to disable it by default, only once.
